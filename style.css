@@ -1,0 +1,56 @@
+table{
+    border: 2px;
+    border-style: solid;
+    text-align: center;
+    margin: 0 auto;
+
+}
+th,td{
+    width: 2em;
+    height: 2em;
+    border: 2px;
+    border-style: solid;
+    margin-top: 0em;
+    margin-left: 0em;
+    margin-bottom: 0em;
+    margin-right: 0em;
+}
+.inputTable{
+    width: 2em;
+    height: 2em;
+}
+h1{
+    color: blue;
+    text-align: center;
+    background-color: cornflowerblue;
+    margin: 0px;
+}
+
+div{
+    width: 50%;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1em;
+}
+
+input{
+    width: 19%;
+    height: 30px;
+    margin: 0px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: cyan;
+    border-color: cyan;
+    font-style: oblique;
+}
+
+.inputDiv{
+    width: 100%;
+    margin: 0px;
+    padding-top: 20px;
+    background-color: cornflowerblue;
+
+}
