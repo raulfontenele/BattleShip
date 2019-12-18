@@ -12,11 +12,20 @@
 <body>
     <h1>Battleship Game</h1>
     <div class = "inputDiv">
-        <input type="button" value="Level 1" onclick="setLevel1()">
-        <input type="button" value="Level 2" onclick="setLevel2()">
-        <input type="button" value="Level 3" onclick="setLevel3()">
-        <input type="button" value="Choose space of ship" onclick="setFlagChoose()"> 
-        <input type="button" value="Star the game" onclick="starGame()"> 
+        <section class = "inputSection">
+            <input type="button" value="Level 1" onclick="setLevel1()">
+            <input type="button" value="Level 2" onclick="setLevel2()">
+            <input type="button" value="Level 3" onclick="setLevel3()">
+            <input type="button" value="Choose space of ship" onclick="setFlagChoose()"> 
+            <input type="button" value="Star the game" onclick="starGame()"> 
+        </section>
+
+        <section class = "chooseShip" id = "chooseShipId">
+            <h3 id = 'shipSelect'></h3>
+            <div id = 'ship1' class = "shipImg"></div>
+            <div id = 'ship2' class = "shipImg"></div>
+        </section>
+
 
     </div>
     <main>
