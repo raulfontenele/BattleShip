@@ -15,23 +15,25 @@ var level2 = 12;
 var level3 = 15;
 var ship1 = 1;
 var ship2 = 2;
-var flagShip1 = false;
-var flagShip1Selected = false;
-var flagShip2Selected = false;
-var flagShip2 = false;
+let qtdShips = 2;
+var flagShip = [];
 
-function initPersonalShipPosition(){
-    for(var i = 0; i<= 1; i++) personalShipPosition[i] = [];
+
+function initShipPosition(){
+    for(var i = 0; i< qtdShips; i++){
+        personalShipPosition[i] = [];
+        adversaryShipPosition[i] = [];
+        flagShip[i] = [];
+    } 
+    for(var i = 0; i<qtdShips; i ++){
+        for(var j = 0; j< qtdShips; j ++)flagShip[i][j] = false;
+    }
 }
 
 function resetGame(){
-    flagChoose = false;
-    flagShip1 = false;
-    flagShip2 = false;
-    flagShip1Selected = false;
-    flagShip2Selected = false;
 
-    personalShipPosition = [];
+    initShipPosition();
+    //personalShipPosition = [];
     adversaryShipPosition = [];
     personalRightShot = [];
     personalWrongShot = [];
@@ -63,13 +65,17 @@ function setLevel3(){
 function setFlagChoose(){
     flagChoose = true;
     showShips();
-    initPersonalShipPosition();
+    initShipPosition();
     alert("Control message!");
 }
 
 function starGame(){
+    var flagCtr = true;
     if(!flagGame){
-        if(personalShipPosition.length == shipCont){
+        for(var index = 0; index <qtdShips;index++){
+            if(flagShip[index][0]==false)flagCtr=false;
+        }
+        if(flagCtr){
             rebuildTableGaming("shotClick");
             chooseAdversaryShipPosition();
             createVectorOfPossibilities();
@@ -77,6 +83,7 @@ function starGame(){
             flagChoose = false;
         }
         else{
+            flagCtr = true;
             alert("You have not added all ships");
         }
     }
@@ -135,24 +142,37 @@ function createTable(level,fun){
 }
 
 function setPersonalShipPosition(id){
+    var flagCtr = false;
     if (flagChoose == true){
-        if(flagShip1Selected == false){
-            if(flagShip1 == true ){
-                console.log(id);
-                console.log(id % (level-1));
-                if(id % (level-1)  + 5 <= level){
-                    for(var i = id; i< id + 4; i++) personalShipPosition[ship1-1].push(i);
-                    rebuildTable2("setPersonalShipPosition");
-                    flagShip1Selected = true;
-                }
-                else{
-                    alert("Your ship is bigger than space that you selected. Please select another space!");
+        for(var index = 0; index <qtdShips; index ++){
+            if(flagShip[index][0] == false){
+                if(flagShip[index][1] == true ){
+
+                    if(id % (level-1)  + 4 <= level){
+                        for(var qtd = 0; qtd < qtdShips; qtd ++){
+                                if(personalShipPosition[qtd].includes(id) )flagCtr = true;
+                        }
+                        if(!flagCtr){
+                            for(var i = id; i< id + 4; i++) personalShipPosition[index].push(i);
+                            rebuildTable2("setPersonalShipPosition");
+                            flagShip[index][0] = true;
+                        }
+                        else{
+                            alert("Space already occupied!!");
+                            flagCtr = false;
+                        }
+
+                    }
+                    else{
+                        alert("Your ship is bigger than space that you selected. Please select another space!");
+                    }
                 }
             }
+            else{
+                //alert("Ship already selected");
+            }
         }
-        else{
-            alert("Ship already selected");
-        }
+
         /*if(personalShipPosition.length < shipCont){
             if(!personalShipPosition.includes(id)){
                 personalShipPosition.push(id);
@@ -222,34 +242,70 @@ function rebuildTable(fun){
 
 function shotClick(id){
 
-    if(personalWrongShot.includes(id) || personalRightShot.includes(id)) alert("REALLY? OK, YOUR PROBLEM!!");
-    else if(adversaryShipPosition.includes(id)){
-        personalRightShot.push(id);
-        if(personalRightShot.length >= shipCont){
-            document.write("YOU WIN!!!!!!!!");
-        }
-    }  
-    else personalWrongShot.push(id);
-    adversaryShot();
-    if(adversaryRightShot.length == shipCont ){
-        document.write("YOU LOSE!!!!!!!!");
+    checkPersonalShot(id);
+    if(personalRightShot.length == qtdShips*4){
+        document.write("YOU WIN!!!!!!!!");
     }
     else{
-        rebuildTableGaming("shotClick");
+        adversaryShot();
+        if(adversaryRightShot.length == qtdShips*4 ){
+            document.write("YOU LOSE!!!!!!!!");
+        }
+        else{
+            rebuildTableGaming("shotClick");
+        }
     }
-    
+
 }  
+
+function checkPersonalShot(id){
+    flagCtr = false;
+    for(index = 0; index < qtdShips; index++){
+        if(adversaryShipPosition[index].includes(id)) flagCtr = true;
+    }
+    if(personalWrongShot.includes(id) || personalRightShot.includes(id)){
+        alert("REALLY? OK, YOUR PROBLEM!!");
+        return;
+    } 
+    if(flagCtr)personalRightShot.push(id);
+    else personalWrongShot.push(id);
+}
 
 
 function chooseAdversaryShipPosition(){
-    for(var i = 0; i < shipCont ; i++){
+    var flagCtr = true;
+    for (var index = 0; index < qtdShips; index ++){
+        var number = parseInt(Math.random()* (Math.pow((level-1),2)) -1)  + 1;
+        if(number%(level-1) +4 < level-1 && number%(level-1) !=0){
+            //
+            for(var k = 0; k<=index; k++)
+            {
+                if(adversaryShipPosition[k].includes(number+1000)) flagCtr = false;
+            }
+            if(flagCtr){
+                for(var i = number; i<number+4; i++) adversaryShipPosition[index].push(i+1000);
+                console.log(number);
+                console.log(number%(level-1) +4);
+            }
+            else index --; 
+        }
+        else{
+            index--;
+        }
+    }
+    console.log(adversaryShipPosition[0]);
+    console.log(adversaryShipPosition[1]);
+    //var number = parseInt(Math.random()* (Math.pow((level-1),2)) -1)  + 1;
+    /*for(var i = 0; i < shipCont ; i++){
         var number = parseInt(Math.random()* (Math.pow((level-1),2)) -1) + 1000 + 1;
         if (adversaryShipPosition.includes(number) == false) adversaryShipPosition.push(number);
         else i--;
-    }
+    }*/
 }
 
 function rebuildTableGaming(fun){
+    var shipHit = [];
+    var flagCtr = false;
     //Personal table
     var stringTable = "<table class = 'table'>";
     for (var line = 0; line < level; line++){
@@ -263,10 +319,19 @@ function rebuildTableGaming(fun){
             else if (line == 0 && column > 0) stringTable = stringTable + String.fromCharCode(column + 64);
             else if(column == 0) stringTable = stringTable + line;
             else {
+                //Check if the ship has been hit
+                for(var i = 0; i<qtdShips; i++){
+                    if(personalShipPosition[i].includes( (line-1)*(level-1) + column)   ){
+                        shipHit[0] = i;
+                        shipHit[1] = personalShipPosition[i].indexOf( (line-1)*(level-1) + column );
+                        flagCtr = true;
+                    }
+                }
                 if(adversaryRightShot.includes((line-1)*(level-1) + column) == true ) stringTable = stringTable + "<img src = 'images/sad.png' class = 'inputTable' >";
                 else if(adversaryWrongShot.includes((line-1)*(level-1) + column) == true ) stringTable = stringTable + "<img src = 'images/bomb.png' class = 'inputTable' >";
-                else if(personalShipPosition.includes((line-1)*(level-1) + column) == true ) stringTable = stringTable + "<img src = 'images/ship.png' class = 'inputTable' >";
+                else if(flagCtr) stringTable = stringTable + "<img src = 'images/ship"+(shipHit[0]+1)+"_p"+(shipHit[1]+1)+".png' class = 'inputTable' >";
                 else stringTable = stringTable + "<img src = 'images/water.png' class = 'inputTable'>";
+                flagCtr = false;
                 
             }
             stringTable = stringTable + "</td>";
@@ -289,6 +354,7 @@ function rebuildTableGaming(fun){
             else if (line == 0 && column > 0) stringTable = stringTable + String.fromCharCode(column + 64);
             else if(column == 0) stringTable = stringTable + line;
             else {
+                //
                 if(personalRightShot.includes((line-1)*(level-1) + column  + 1000) == true ) stringTable = stringTable + "<img src = 'images/happy.png' class = 'inputTable' onclick = '"+ fun +"(" + ((line-1)*(level-1) + column + 1000) + ")'>";
                 else if(personalWrongShot.includes((line-1)*(level-1) + column+ 1000) == true ) stringTable = stringTable + "<img src = 'images/sad.png' class = 'inputTable' onclick = '"+ fun + "(" + ((line-1)*(level-1) + column + 1000) + ")'>";
                 else stringTable = stringTable + "<img src = 'images/dontKnow.png' class = 'inputTable' onclick = '"+ fun +"(" + ((line-1)*(level-1) + column+1000) + ")'>";
@@ -303,12 +369,18 @@ function rebuildTableGaming(fun){
 }
 
 function adversaryShot(){
-
-        var index = parseInt(Math.random()* (adversaryShotPossibilities.length-1) );
-        if(personalShipPosition.includes(adversaryShotPossibilities[index])) adversaryRightShot.push(adversaryShotPossibilities[index]);
-        else adversaryWrongShot.push(adversaryShotPossibilities[index]);
-
-        adversaryShotPossibilities = removeElement(adversaryShotPossibilities,adversaryShotPossibilities[index]);        
+    var flagCtr = false;
+    var index = parseInt(Math.random()* (adversaryShotPossibilities.length-1) );
+    for(var i = 0; i< qtdShips; i++){
+        if(personalShipPosition[i].includes(adversaryShotPossibilities[index])){
+            adversaryRightShot.push(adversaryShotPossibilities[index]);
+            flagCtr = true;
+        } 
+    }
+   
+    if(!flagCtr)adversaryWrongShot.push(adversaryShotPossibilities[index]);
+    flagCtr = false;
+    adversaryShotPossibilities = removeElement(adversaryShotPossibilities,adversaryShotPossibilities[index]);        
 }
 
 function createVectorOfPossibilities(){
@@ -329,22 +401,27 @@ function showShips(){
 
 function selectShip(id){
     
-    if(id == ship1){
-        flagShip1 = true;
-        flagShip2 = false;
-        console.log("Id1 selecionado");
-    }
-    else{
-        flagShip1 = false;
-        flagShip2 = true;
-        console.log("Id2 selecionado");
+    for(var index = 0; index <qtdShips; index ++){
+        if(id == index+1){
+            flagShip[index][1] = true;
+            console.log("Id1 selecionado");
+        }
+        else{
+            flagShip[index][1] = false;
+            console.log("Id2 selecionado");
+        }
     }
     
 }
 
 //teste
 function rebuildTable2(fun){
-    var ctr = 1;
+    var flag = false;
+    var ctr = [];
+
+    ///
+    for(var index = 0; index <qtdShips; index ++) ctr[index] = 1;
+    ///
     var stringTable = "<table class = 'table'>";
     for (var line = 0; line < level; line++){
         stringTable = stringTable + "<tr>";
@@ -357,12 +434,16 @@ function rebuildTable2(fun){
             else if (line == 0 && column > 0) stringTable = stringTable + String.fromCharCode(column + 64);
             else if(column == 0) stringTable = stringTable + line;
             else {
-                //Arrumar aqui
-                if(personalShipPosition[0].includes((line-1)*(level-1) + column) == true ){
-                    stringTable = stringTable + "<img src = 'images/ship1_p"+ctr+".png' class = 'inputTable' onclick = '"+ fun +"(" + ((line-1)*(level-1) + column) + ")'>";
-                    ctr ++;
-                } 
-                else stringTable = stringTable + "<img src = 'images/water.png' class = 'inputTable' onclick = '"+ fun + "(" + ((line-1)*(level-1) + column)  + ")'>";
+                for(var index = 0; index <qtdShips; index ++){
+                    if(personalShipPosition[index].includes((line-1)*(level-1) + column) == true ){
+                        stringTable = stringTable + "<img src = 'images/ship"+(index+1)+"_p"+ctr[index]+".png' class = 'inputTable' onclick = '"+ fun +"(" + ((line-1)*(level-1) + column) + ")'>";
+                        ctr[index] ++;
+                        flag = true;
+                    }
+                }
+
+                if(!flag) stringTable = stringTable + "<img src = 'images/water.png' class = 'inputTable' onclick = '"+ fun + "(" + ((line-1)*(level-1) + column)  + ")'>";
+                flag = false;
                 
             }
             stringTable = stringTable + "</td>";
