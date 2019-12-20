@@ -263,7 +263,6 @@ function shotClick(id){
         }
         else{
             if((contShots < 9 && level==level2) || (contShots < 7 && level==level)){
-                console.log("enttrousadfasf")
                 if(adversaryRightShot.length > 0){
                     adversaryShot(adversaryRightShot[adversaryRightShot.length -1]-1,false);
                 }
@@ -340,7 +339,6 @@ function checkAdversaryShot(id){
 function verifyShipsAlive(id){
     for(var i = 0; i<qtdShips; i++){
         if(personalShipPosition[i].includes(id)){
-            //console.log("entrou no navio" + i);
             for(var j = 0; j <4 ; j++){
                 if(!adversaryRightShot.includes(personalShipPosition[i][j]) ) return false;
             }
@@ -386,8 +384,6 @@ function adversaryShot(id, flag){
         else{
             if(checkAdversaryShot(id)) flagHits[0] = true;
         }
-        
-
     }
 }
 
@@ -411,8 +407,10 @@ function chooseAdversaryShipPosition(){
             index--;
         }
     }
-    console.log(adversaryShipPosition[0]);
-    console.log(adversaryShipPosition[1]);
+    for(var i = 0; i< qtdShips; i++){
+        console.log(adversaryShipPosition[i]);
+    }
+
 }
 
 function rebuildTableGaming(fun){
@@ -499,20 +497,20 @@ function showShips(){
 }
 
 function selectShip(id){
-    
-    for(var index = 0; index <qtdTotalShips; index ++){
-        if(id == index+1){
-            flagShip[shipCont][1] = true;
-            shipSelect[shipCont] = id;
-
-            //console.log("Id1 selecionado");
-        }
-        /*else{
-            flagShip[index][1] = false;
-            //console.log("Id2 selecionado");
-        }*/
-    }
     if(shipCont<qtdShips){
+        for(var index = 0; index <qtdTotalShips; index ++){
+            if(id == index+1){
+                flagShip[shipCont][1] = true;
+                shipSelect[shipCont] = id;
+
+                //console.log("Id1 selecionado");
+            }
+            /*else{
+                flagShip[index][1] = false;
+                //console.log("Id2 selecionado");
+            }*/
+        }
+
         for(var i = 0; i < qtdShips; i++){
             if(i !=shipCont) flagShip[i][1] = false;
         }
