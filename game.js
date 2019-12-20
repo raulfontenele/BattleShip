@@ -10,13 +10,22 @@ var shipCont = 0;
 var level = 0;
 var flagChoose = false;
 var flagGame = false;
-var level1 = 7;
-var level2 = 12;
-var level3 = 15;
-var ship1 = 1;
-var ship2 = 2;
+const level1 = 9;
+const level2 = 14;
+const level3 = 18;
 let qtdShips = 2;
 var flagShip = [];
+var flagHits = [];
+var contShots = 0;
+
+function initFlagHits(){
+    //check first shot
+    flagHits[0] = false;
+    //check second shot
+    flagHits[1] = false;
+    //check complet shot
+    flagHits[2] = false;
+}
 
 
 function initShipPosition(){
@@ -33,13 +42,12 @@ function initShipPosition(){
 function resetGame(){
 
     initShipPosition();
-    //personalShipPosition = [];
-    adversaryShipPosition = [];
     personalRightShot = [];
     personalWrongShot = [];
     adversaryRightShot = [];
     adversaryWrongShot = [];
     adversaryShotPossibilities = [];
+    flagGame = false;
 }
 
 function setLevel1(){
@@ -83,7 +91,6 @@ function starGame(){
             flagChoose = false;
         }
         else{
-            flagCtr = true;
             alert("You have not added all ships");
         }
     }
@@ -172,20 +179,6 @@ function setPersonalShipPosition(id){
                 //alert("Ship already selected");
             }
         }
-
-        /*if(personalShipPosition.length < shipCont){
-            if(!personalShipPosition.includes(id)){
-                personalShipPosition.push(id);
-                rebuildTable("setPersonalShipPosition");
-            }
-            else{
-                alert("Ship choosed !");
-            }
-
-        }
-        else{
-            alert("You added more ships than possible!");
-        }*/
     }
     else{
         alert("Enable ship selection !");
@@ -244,19 +237,64 @@ function shotClick(id){
 
     checkPersonalShot(id);
     if(personalRightShot.length == qtdShips*4){
-        document.write("YOU WIN!!!!!!!!");
+        //document.write("YOU WIN!!!!!!!!");
+        youWin();
     }
     else{
-        adversaryShot();
+        if(level == level1){
+            if(adversaryRightShot.length > 0){
+                adversaryShot(adversaryRightShot[adversaryRightShot.length -1]-1,false);
+            }
+            else{
+                adversaryShot(0,false);
+            }
+        }
+        else{
+            if((contShots < 9 && level==level2) || (contShots < 7 && level==level)){
+                console.log("enttrousadfasf")
+                if(adversaryRightShot.length > 0){
+                    adversaryShot(adversaryRightShot[adversaryRightShot.length -1]-1,false);
+                }
+                else{
+                    adversaryShot(0,false); 
+                }
+            }
+            else{
+                adversaryShot(searchValueToShot(),true);
+                contShots = 0;
+            }
+
+        }
+
         if(adversaryRightShot.length == qtdShips*4 ){
-            document.write("YOU LOSE!!!!!!!!");
+            //document.write("YOU LOSE!!!!!!!!");
+            youLose();
         }
         else{
             rebuildTableGaming("shotClick");
         }
     }
+    function searchValueToShot(){
+        for(var i = 0;i<qtdShips; i++){
+            for(var j = 0; j<4; j++){
+                if(!adversaryRightShot.includes(personalShipPosition[i][j]) ){
+                    return personalShipPosition[i][j];
+                } 
+            }
+        }
+    }
 
 }  
+function youLose(){
+    var stringText = "<h1 font-size: '60px' margin = '10px' >YOU LOSE :)</h1>"+
+    "<img src = 'images/youLose.jpg'>";
+    document.write(stringText);
+}
+function youWin(){
+    var stringText = "<h1 font-size: '60px' margin = '10px' >YOU WIN :)</h1>"+
+    "<img src = 'images/youWin.png'>";
+    document.write(stringText);
+}
 
 function checkPersonalShot(id){
     flagCtr = false;
@@ -271,21 +309,89 @@ function checkPersonalShot(id){
     else personalWrongShot.push(id);
 }
 
+function checkAdversaryShot(id){
+    var flagCtr = false;
+    for(var i = 0; i< qtdShips; i++){
+        if(personalShipPosition[i].includes(id)){
+            adversaryRightShot.push(id);
+            flagCtr = true;
+            return true;
+        } 
+    }
+    if(!flagCtr){
+        adversaryWrongShot.push(id);
+        adversaryShotPossibilities = removeElement(adversaryShotPossibilities,id);
+        return false;
+    }
+}
+
+function verifyShipsAlive(id){
+    for(var i = 0; i<qtdShips; i++){
+        if(personalShipPosition[i].includes(id)){
+            //console.log("entrou no navio" + i);
+            for(var j = 0; j <4 ; j++){
+                if(!adversaryRightShot.includes(personalShipPosition[i][j]) ) return false;
+            }
+        }
+    }
+    return true;
+}
+
+function adversaryShot(id, flag){
+    if(flagHits[0]){
+        if(adversaryRightShot.includes(id) || adversaryWrongShot.includes(id)){
+            if(id%(level-1)==0){
+                adversaryShot(id+1,false);
+            }
+            else{ 
+                adversaryShot(id+1,false);
+            }
+        }
+        else{
+            if(id < 0){
+                adversaryShot(id+1,false);
+            }
+            else if(id%(level-1)==0){
+                adversaryShot(id+1,false);
+            }
+            else{
+                if(checkAdversaryShot(id)){
+                    if(verifyShipsAlive(id)){
+                        flagHits[0] = false;
+                    }
+                }
+                else contShots ++; 
+            }
+
+        }
+    }
+    else{
+        if(!flag){
+            var index = parseInt(Math.random()* (adversaryShotPossibilities.length-1) );
+            if(checkAdversaryShot(adversaryShotPossibilities[index])) flagHits[0] = true;
+            else contShots ++;
+        }
+        else{
+            if(checkAdversaryShot(id)) flagHits[0] = true;
+        }
+        
+
+    }
+}
+
+
 
 function chooseAdversaryShipPosition(){
     var flagCtr = true;
     for (var index = 0; index < qtdShips; index ++){
         var number = parseInt(Math.random()* (Math.pow((level-1),2)) -1)  + 1;
         if(number%(level-1) +4 < level-1 && number%(level-1) !=0){
-            //
             for(var k = 0; k<=index; k++)
             {
                 if(adversaryShipPosition[k].includes(number+1000)) flagCtr = false;
             }
             if(flagCtr){
                 for(var i = number; i<number+4; i++) adversaryShipPosition[index].push(i+1000);
-                console.log(number);
-                console.log(number%(level-1) +4);
             }
             else index --; 
         }
@@ -295,12 +401,6 @@ function chooseAdversaryShipPosition(){
     }
     console.log(adversaryShipPosition[0]);
     console.log(adversaryShipPosition[1]);
-    //var number = parseInt(Math.random()* (Math.pow((level-1),2)) -1)  + 1;
-    /*for(var i = 0; i < shipCont ; i++){
-        var number = parseInt(Math.random()* (Math.pow((level-1),2)) -1) + 1000 + 1;
-        if (adversaryShipPosition.includes(number) == false) adversaryShipPosition.push(number);
-        else i--;
-    }*/
 }
 
 function rebuildTableGaming(fun){
@@ -368,20 +468,7 @@ function rebuildTableGaming(fun){
     document.getElementById("adversaryTable").innerHTML = stringTable;
 }
 
-function adversaryShot(){
-    var flagCtr = false;
-    var index = parseInt(Math.random()* (adversaryShotPossibilities.length-1) );
-    for(var i = 0; i< qtdShips; i++){
-        if(personalShipPosition[i].includes(adversaryShotPossibilities[index])){
-            adversaryRightShot.push(adversaryShotPossibilities[index]);
-            flagCtr = true;
-        } 
-    }
-   
-    if(!flagCtr)adversaryWrongShot.push(adversaryShotPossibilities[index]);
-    flagCtr = false;
-    adversaryShotPossibilities = removeElement(adversaryShotPossibilities,adversaryShotPossibilities[index]);        
-}
+
 
 function createVectorOfPossibilities(){
     for (var i = 0; i < Math.pow((level-1),2); i++ ) adversaryShotPossibilities.push(i + 1);   
