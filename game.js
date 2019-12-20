@@ -13,18 +13,20 @@ var flagGame = false;
 const level1 = 9;
 const level2 = 14;
 const level3 = 18;
-let qtdShips = 2;
+var qtdShips ;
+const qtdTotalShips = 4;
 var flagShip = [];
 var flagHits = [];
 var contShots = 0;
+var shipSelect =[];
 
 function initFlagHits(){
     //check first shot
     flagHits[0] = false;
     //check second shot
-    flagHits[1] = false;
+    //flagHits[1] = false;
     //check complet shot
-    flagHits[2] = false;
+    //flagHits[2] = false;
 }
 
 
@@ -48,33 +50,42 @@ function resetGame(){
     adversaryWrongShot = [];
     adversaryShotPossibilities = [];
     flagGame = false;
+    shipCont = 0;
+    shipSelect = [];
 }
 
 function setLevel1(){
     level = level1;
-    shipCont = 5;
+    //shipCont = 5;
+    qtdShips = 2;
     createTable(level,"setPersonalShipPosition");
     resetGame();
+    alert("In these level, you must select "+qtdShips+" ships!");
 
 }
 function setLevel2(){
     level = level2;
-    shipCont = 7;
+    //shipCont = 7;
+    qtdShips = 3;
     createTable(level,"setPersonalShipPosition");
     resetGame();
+    alert("In these level, you must select "+qtdShips+" ships!");
+
 }
 function setLevel3(){
     level = level3;
-    shipCont = 9;
+    //shipCont = 9;
+    qtdShips = 4;
     createTable(level,"setPersonalShipPosition");
     resetGame();
+    alert("In these level, you must select "+qtdShips+" ships!");
 }
 
 function setFlagChoose(){
     flagChoose = true;
     showShips();
     initShipPosition();
-    alert("Control message!");
+    alert("You must select the left-most corner from where the ship will be positioned.");
 }
 
 function starGame(){
@@ -162,7 +173,8 @@ function setPersonalShipPosition(id){
                         if(!flagCtr){
                             for(var i = id; i< id + 4; i++) personalShipPosition[index].push(i);
                             rebuildTable2("setPersonalShipPosition");
-                            flagShip[index][0] = true;
+                            flagShip[shipCont][0] = true;
+                            shipCont ++;
                         }
                         else{
                             alert("Space already occupied!!");
@@ -422,14 +434,14 @@ function rebuildTableGaming(fun){
                 //Check if the ship has been hit
                 for(var i = 0; i<qtdShips; i++){
                     if(personalShipPosition[i].includes( (line-1)*(level-1) + column)   ){
-                        shipHit[0] = i;
+                        shipHit[0] = shipSelect[i];
                         shipHit[1] = personalShipPosition[i].indexOf( (line-1)*(level-1) + column );
                         flagCtr = true;
                     }
                 }
                 if(adversaryRightShot.includes((line-1)*(level-1) + column) == true ) stringTable = stringTable + "<img src = 'images/sad.png' class = 'inputTable' >";
                 else if(adversaryWrongShot.includes((line-1)*(level-1) + column) == true ) stringTable = stringTable + "<img src = 'images/bomb.png' class = 'inputTable' >";
-                else if(flagCtr) stringTable = stringTable + "<img src = 'images/ship"+(shipHit[0]+1)+"_p"+(shipHit[1]+1)+".png' class = 'inputTable' >";
+                else if(flagCtr) stringTable = stringTable + "<img src = 'images/ship"+(shipHit[0])+"_p"+(shipHit[1]+1)+".png' class = 'inputTable' >";
                 else stringTable = stringTable + "<img src = 'images/water.png' class = 'inputTable'>";
                 flagCtr = false;
                 
@@ -476,7 +488,7 @@ function createVectorOfPossibilities(){
 
 function showShips(){
     var stringText;
-    for(var i = 1; i<=2; i ++){
+    for(var i = 1; i<=qtdTotalShips; i ++){
         stringText= "<img src = 'images/warShip_"+ i + ".png' width = 65px heigth = 45px  onclick = 'selectShip("+ i +")'>";
         document.getElementById("ship"+i).innerHTML = stringText;
     }
@@ -488,16 +500,27 @@ function showShips(){
 
 function selectShip(id){
     
-    for(var index = 0; index <qtdShips; index ++){
+    for(var index = 0; index <qtdTotalShips; index ++){
         if(id == index+1){
-            flagShip[index][1] = true;
-            console.log("Id1 selecionado");
+            flagShip[shipCont][1] = true;
+            shipSelect[shipCont] = id;
+
+            //console.log("Id1 selecionado");
         }
-        else{
+        /*else{
             flagShip[index][1] = false;
-            console.log("Id2 selecionado");
+            //console.log("Id2 selecionado");
+        }*/
+    }
+    if(shipCont<qtdShips){
+        for(var i = 0; i < qtdShips; i++){
+            if(i !=shipCont) flagShip[i][1] = false;
         }
     }
+    else{
+        alert("You already added the number of ships allowed at this level!");
+    }
+
     
 }
 
@@ -523,7 +546,7 @@ function rebuildTable2(fun){
             else {
                 for(var index = 0; index <qtdShips; index ++){
                     if(personalShipPosition[index].includes((line-1)*(level-1) + column) == true ){
-                        stringTable = stringTable + "<img src = 'images/ship"+(index+1)+"_p"+ctr[index]+".png' class = 'inputTable' onclick = '"+ fun +"(" + ((line-1)*(level-1) + column) + ")'>";
+                        stringTable = stringTable + "<img src = 'images/ship"+shipSelect[index]+"_p"+ctr[index]+".png' class = 'inputTable' onclick = '"+ fun +"(" + ((line-1)*(level-1) + column) + ")'>";
                         ctr[index] ++;
                         flag = true;
                     }
