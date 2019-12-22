@@ -350,18 +350,26 @@ function verifyShipsAlive(id){
 function adversaryShot(id, flag){
     if(flagHits[0]){
         if(adversaryRightShot.includes(id) || adversaryWrongShot.includes(id)){
-            if(id%(level-1)==0){
+            //if(id%(level-1)==0 && adversaryRightShot.includes(id-1)){
                 adversaryShot(id+1,false);
-            }
-            else{ 
-                adversaryShot(id+1,false);
-            }
+            //}
+            //else{ 
+                //adversaryShot(id+1,false);
+            //}
         }
         else{
             if(id < 0){
                 adversaryShot(id+1,false);
             }
-            else if(id%(level-1)==0){
+            else if(id%(level-1)==0 && adversaryRightShot.includes(id-1)){
+                if(checkAdversaryShot(id)){
+                    if(verifyShipsAlive(id)){
+                        flagHits[0] = false;
+                    }
+                }
+                else contShots ++;
+            }
+            else if(id%(level-1)==0 ){
                 adversaryShot(id+1,false);
             }
             else{
