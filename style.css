@@ -1,12 +1,15 @@
 
 body{
     margin: 0px;
+    background-color: cornflowerblue;
+
 }
 table{
     border: 2px;
     border-style: solid;
     text-align: center;
     margin: 0 auto;
+    background-color: snow;
 
 }
 th,td{
@@ -28,6 +31,7 @@ h1{
     text-align: center;
     background-color: cornflowerblue;
     margin: 0px;
+    padding-top: 8px;
 }
 
 h3{
@@ -81,4 +85,5 @@ input{
 }
 .shipImg{
     width: 25%;
+    text-align: center;
 }
