@@ -103,6 +103,7 @@ function starGame(){
             createVectorOfPossibilities();
             flagGame = true;
             flagChoose = false;
+            alert("Game started! Good luck!");
         }
         else{
             alert("You have not added all ships");
@@ -412,7 +413,18 @@ function adversaryShot(id, flag){
 function chooseAdversaryShipPosition(){
     var flagCtr = true;
     for (var index = 0; index < qtdShips; index ++){
-        var number = parseInt(Math.random()* (Math.pow((level-1),2)) -1)  + 1;
+        var line = parseInt(Math.random()*(level-2));
+        var column = parseInt(Math.random()*(level-5) +1);
+        var number = line*(level-1) + column;
+        for(var k = 0; k<=index; k++)
+        {
+            if(adversaryShipPosition[k].includes(number+1000)) flagCtr = false;
+        }
+        if(flagCtr){
+            for(var i = number; i<number+4; i++) adversaryShipPosition[index].push(i+1000);
+        }
+        else index --; 
+        /*var number = parseInt(Math.random()* (Math.pow((level-1),2)) -1)  + 1;
         if(number%(level-1) +4 < level-1 && number%(level-1) !=0){
             for(var k = 0; k<=index; k++)
             {
@@ -424,11 +436,12 @@ function chooseAdversaryShipPosition(){
             else index --; 
         }
         else{
+            console.log("nem funfou 2");
             index--;
-        }
+        }*/
     }
     for(var i = 0; i< qtdShips; i++){
-        console.log(adversaryShipPosition[i]);
+        console.log(convertNum2Coor(adversaryShipPosition[i],level));
     }
 
 }
