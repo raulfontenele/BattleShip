@@ -5,41 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Battleship</title>
+    
+    <!--Import codes of bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
+    <!--Import codes of game-->
     <script type="text/javascript" src="game.js"></script>
     <script type="text/javascript" src="auxFunctions.js"></script>
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-    <h1>Battleship Game</h1>
-    <div class = "inputDiv">
-        <section class = "inputSection">
-            <input type="button" value="Level 1" onclick="setLevel1()">
-            <input type="button" value="Level 2" onclick="setLevel2()">
-            <input type="button" value="Level 3" onclick="setLevel3()">
-            <input type="button" value="Choose space of ship" onclick="setFlagChoose()"> 
-            <input type="button" value="Star the game" onclick="starGame()"> 
-        </section>
 
-        <section class = "chooseShip" id = "chooseShipId">
-            <h3 id = 'shipSelect'></h3>
-            <div id = 'ship1' class = "shipImg"></div>
-            <div id = 'ship2' class = "shipImg"></div>
-            <div id = 'ship3' class = "shipImg"></div>
-            <div id = 'ship4' class = "shipImg"></div>
-        </section>
+    <!--ESCREVENDO COM O BOOTSTRAP--->
+    <div class = "container">
 
-
-    </div>
-    <main>
-        <div id = "personalTable" class="clPersonalTable">
-
+        <div class = "row">
+            <h1 class = "mx-auto pt-3 pb-3">Battleship Game</h1>
         </div>
-        <div id = "adversaryTable" class="clAdversaryTable" >
-            
+
+        <div class = "row d-flex pb-2">
+            <div class="col  btn-group"><input type="button" value="Level 1" onclick="setLevel1()"></div>
+            <div class="col  btn-group"><input type="button" value="Level 2" onclick="setLevel2()"></div>
+            <div class="col  btn-group"><input type="button" value="Level 3" onclick="setLevel3()"></div>
+            <div class="col  btn-group"><input type="button" value="Choose space of ship" onclick="setFlagChoose()"></div>
+            <div class="col  btn-group"><input type="button" value="Start the game" onclick="starGame()"></div>
+            <!--Button to show rules -->
+            <div class="col"><input type="button" value="Instrutions" onclick="showInstrutions()"></div>
         </div>
+
+        <div class="row"><h3 class="mx-auto" id = 'shipSelect'></h3></div>
         
-    </main>
-    <div class = 'result'>
+        <div class="row">
+            <div class="col text-center"><div id = 'ship1' class = "shipImg"></div></div>
+            <div class="col text-center"><div id = 'ship2' class = "shipImg"></div></div>
+            <div class="col text-center"><div id = 'ship3' class = "shipImg"></div></div>
+            <div class="col text-center"><div id = 'ship4' class = "shipImg"></div></div>
+        </div>
+
+        <div class="row d-flex mt-5">
+            <div class="col">
+                <div class="row"><h4 class="mx-auto" id ="titlePersonalTable"></h4></div>
+                <div class="row clPersonalTable" id = "personalTable" ></div>
+            </div>
+            <div class="col">
+                <div class="row"><h4 class="mx-auto" id = "titleAdversaryTable"></h4></div>
+                <div class="row clAdversaryTable" id = "adversaryTable" ></div>
+            </div>   
+        </div>
+        <div class = "row mt-3" id = "info"> </div>
+
     </div>
+
 </body>
 </html>

@@ -1,89 +1,54 @@
-
 body{
-    margin: 0px;
-    background-color: cornflowerblue;
-
-}
-table{
-    border: 2px;
-    border-style: solid;
-    text-align: center;
-    margin: 0 auto;
-    background-color: snow;
-
-}
-th,td{
-    width: 2em;
-    height: 2em;
-    border: 2px;
-    border-style: solid;
-    margin-top: 0em;
-    margin-left: 0em;
-    margin-bottom: 0em;
-    margin-right: 0em;
-}
-.inputTable{
-    width: 2em;
-    height: 2em;
-}
-h1{
-    color: blue;
-    text-align: center;
-    background-color: cornflowerblue;
-    margin: 0px;
-    padding-top: 8px;
-}
-
-h3{
-    color: blue;
-    text-align: center;
-    background-color: cornflowerblue;
-    margin: 5px;
-    width: 100%; 
-    border-style: solid;
-    border-color:  blue;
-    border-left-width: 0px;
-    border-right-width: 0px;
-    font-size: larger;
-    margin-top: 2px;
-}
-
-
-div{
-    width: 50%;
-}
-
-main {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 1em;
-}
-
-input{
-    width: 19%;
-    height: 30px;
-    margin-left: 0.3%;
-    margin-right: 0.3%;
-    text-align: center;
-    border-radius: 5px;
-    background-color: cyan;
-    border-color: cyan;
-    font-style: oblique;
-
-}
-
-.inputDiv{
-    width: 100%;
-    margin: 0px;
-    padding-top: 20px;
-    background-color: cornflowerblue;
-
-}
-.chooseShip{
-    display: flex;
-    flex-wrap: wrap;
-}
-.shipImg{
-    width: 25%;
-    text-align: center;
-}
+    background-color: rgb(198, 217, 236);
+ }
+ 
+ 
+ .myTable{
+     border: 2px;
+     border-style: solid;
+     text-align: center;
+     margin: 0 auto;
+     background-color: snow;
+ 
+ }
+ th,td{
+     width: 2em;
+     height: 2em;
+     border: 2px;
+     border-style: solid;
+     margin-top: 0em;
+     margin-left: 0em;
+     margin-bottom: 0em;
+     margin-right: 0em;
+ }
+ .inputTable{
+     width: 2em;
+     height: 2em;
+ }
+ 
+ h1{
+     color: rgb(0, 0, 230);    
+ }
+ 
+ h3{
+     color:  rgb(0, 0, 230);   
+     text-align: center;
+ }
+ 
+ input{
+     width: 100%;
+     text-align: center;
+     border-radius: 5px;
+     color: snow;
+     background-color: rgb(0, 0, 230);;
+     border-color:  rgb(0, 0, 230);;
+     font-style: oblique;
+ }
+ main {
+     margin-top: 1em;
+ }
+ 
+ input:hover{
+     background-color: rgb(51, 133, 255);
+ }
+ 

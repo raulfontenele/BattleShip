@@ -11,8 +11,8 @@ var level = 0;
 var flagChoose = false;
 var flagGame = false;
 const level1 = 9;
-const level2 = 14;
-const level3 = 18;
+const level2 = 12;
+const level3 = 15;
 var qtdShips ;
 const qtdTotalShips = 4;
 var flagShip = [];
@@ -61,6 +61,7 @@ function setLevel1(){
     createTable(level,"setPersonalShipPosition");
     resetGame();
     alert("In these level, you must select "+qtdShips+" ships!");
+    cleanInstrutions();
 
 }
 function setLevel2(){
@@ -70,6 +71,7 @@ function setLevel2(){
     createTable(level,"setPersonalShipPosition");
     resetGame();
     alert("In these level, you must select "+qtdShips+" ships!");
+    cleanInstrutions();
 
 }
 function setLevel3(){
@@ -79,6 +81,7 @@ function setLevel3(){
     createTable(level,"setPersonalShipPosition");
     resetGame();
     alert("In these level, you must select "+qtdShips+" ships!");
+    cleanInstrutions();
 }
 
 function setFlagChoose(){
@@ -114,7 +117,10 @@ function starGame(){
 function createTable(level,fun){
 
     // Personal table
-    var stringTable = "<table class = 'table'>";
+    var stringTitle = "Personal table";
+    document.getElementById("titlePersonalTable").innerHTML = stringTitle;
+
+    var stringTable = "<table class = 'myTable p-4 mx-auto'>";
     for (var line = 0; line < level; line++){
         stringTable = stringTable + "<tr>";
 
@@ -134,8 +140,14 @@ function createTable(level,fun){
     stringTable = stringTable + "</table>";
     document.getElementById("personalTable").innerHTML = stringTable;
 
+
     //Adversary table
-    stringTable = "<table class = 'table'>";
+
+    var stringTitle = "Adversary table";
+    document.getElementById("titleAdversaryTable").innerHTML = stringTitle;
+
+
+    stringTable = "<table class = 'myTable p-4 mx-auto'>";
     for (var line = 0; line < level; line++){
         stringTable = stringTable + "<tr>";
 
@@ -425,7 +437,7 @@ function rebuildTableGaming(fun){
     var shipHit = [];
     var flagCtr = false;
     //Personal table
-    var stringTable = "<table class = 'table'>";
+    var stringTable = "<table class = 'myTable p-4 mx-auto'>";
     for (var line = 0; line < level; line++){
         stringTable = stringTable + "<tr>";
 
@@ -460,7 +472,7 @@ function rebuildTableGaming(fun){
     document.getElementById("personalTable").innerHTML = stringTable;
 
     //Adversary table
-    stringTable = "<table class = 'table'>";
+    stringTable = "<table class = 'myTable p-4 mx-auto'>";
     for (var line = 0; line < level; line++){
         stringTable = stringTable + "<tr>";
 
@@ -538,7 +550,7 @@ function rebuildTable2(fun){
     ///
     for(var index = 0; index <qtdShips; index ++) ctr[index] = 1;
     ///
-    var stringTable = "<table class = 'table'>";
+    var stringTable = "<table class = 'myTable p-4 mx-auto'>";
     for (var line = 0; line < level; line++){
         stringTable = stringTable + "<tr>";
 
@@ -570,7 +582,7 @@ function rebuildTable2(fun){
     document.getElementById("personalTable").innerHTML = stringTable;
 
     //Adversary table
-    stringTable = "<table class = 'table'>";
+    stringTable = "<table class = 'myTable p-4 mx-auto'>";
     for (var line = 0; line < level; line++){
         stringTable = stringTable + "<tr>";
 

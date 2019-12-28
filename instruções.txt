@@ -1,0 +1,6 @@
+Bem vindos ao jogo de batalha naval.
+
+Como jogar:
+Para inicializar o jogo, você deverá inicialmente selecionar o nível o qual gostaria de jogar. Em seguida seleciona os navios que irá utilizar, um de cada vez, clicando no navio e em seguinda na coordenada mais a esquerda que ele ele irá ficar.
+Lembrando que cada navio ocupa 4 espaços no tabuleiro. Após selecionar todos os navios, basta apertar o botação de iniciar o jogo e selecionar o clicar no espaço que deseja dar seu disparo.
+Boa sorte, você vai precisar.
